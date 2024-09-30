@@ -11,7 +11,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthUser } from './redux/appSlice';
+import { setAuthUser, clearAuthUser } from './redux/appSlice';
 
 const AuthenticatedLayout = ({ children }) => {
   const { user } = useSelector((store) => store.app);
@@ -23,12 +23,19 @@ const AuthenticatedLayout = ({ children }) => {
   return (
     <>
       <Navbar />
+      <Sidebar />
       <div>{children}</div>
       <div className="absolute w-[30%] bottom-0 right-20 z-10">
         <SendEmail />
       </div>
     </>
   );
+};
+
+// Logout function
+const handleLogout = (dispatch) => {
+  localStorage.removeItem('user'); // Clear user from localStorage
+  dispatch(clearAuthUser()); // Clear user from Redux
 };
 
 const approuter = createBrowserRouter([
